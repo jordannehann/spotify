@@ -15,3 +15,27 @@ df_stream = pd.concat([df_stream0, df_stream1])
 df_stream['UniqueID'] = df_stream['artistName'] + ":" + df_stream['trackName']
 
 df_stream.head()
+
+# read your edited Library json file into a pandas dataframe
+df_library = pd.read_json('endsong_0.json')
+
+# add UniqueID column (same as above)
+df_library['UniqueID'] = df_library['artist'] + ":" + df_library['track']
+
+# add column with track URI stripped of 'spotify:track:'
+new = df_library["uri"].str.split(":", expand = True)
+df_library['track_uri'] = new[2]
+
+df_library.head()
+
+# create final dict as a copy df_stream
+df_tableau = df_stream.copy()
+
+# add column checking if streamed song is in library
+# not used in this project but could be helpful for cool visualizations
+df_tableau['In Library'] = np.where(df_tableau['UniqueID'].isin(df_library['UniqueID'].tolist()),1,0)
+
+# left join with df_library on UniqueID to bring in album and track_uri
+df_tableau = pd.merge(df_tableau, df_library[['album','UniqueID','track_uri']],how='left',on=['UniqueID'])
+
+df_tableau.head()
