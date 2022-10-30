@@ -39,3 +39,5 @@ df_tableau['In Library'] = np.where(df_tableau['UniqueID'].isin(df_library['Uniq
 df_tableau = pd.merge(df_tableau, df_library[['album','UniqueID','track_uri']],how='left',on=['UniqueID'])
 
 df_tableau.head()
+
+df.to_json(r'Path to store the exported JSON file\File Name.json')
