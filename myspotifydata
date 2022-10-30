@@ -1,0 +1,17 @@
+# read your 1+ StreamingHistory files (depending on how extensive your streaming history is) into pandas dataframes
+df_stream0 = pd.read_json('endsong_0.json')
+df_stream1 = pd.read_json('endsong_1.json')
+df_stream2 = pd.read_json('endsong_2.json')
+df_stream3 = pd.read_json('endsong_3.json')
+df_stream4 = pd.read_json('endsong_4.json')
+df_stream5 = pd.read_json('endsong_5.json')
+df_stream6 = pd.read_json('endsong_6.json')
+df_stream7 = pd.read_json('endsong_7.json')
+
+# merge streaming dataframes
+df_stream = pd.concat([df_stream0, df_stream1])
+
+# create a 'UniqueID' for each song by combining the fields 'artistName' and 'trackName'
+df_stream['UniqueID'] = df_stream['artistName'] + ":" + df_stream['trackName']
+
+df_stream.head()
